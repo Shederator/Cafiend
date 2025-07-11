@@ -8,6 +8,10 @@ export default function CoffeeForm() {
     const [cost, setCost] = useState(0)
     const [hour, setHour] = useState(0)
     const [minutes, setMinutes] = useState(0)
+
+    function handleSubmit() {
+        console.log (selected,cost,hour,minutes)
+    }
   return (
     <>
         <div className='section-header'>
@@ -84,7 +88,7 @@ export default function CoffeeForm() {
                 </select>
               </div>
             </div>
-            <button> Add Entry </button>
+            <button onClick={handleSubmit}> Add Entry </button>
     </>
   )
 }
