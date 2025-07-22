@@ -1,5 +1,5 @@
 import React from 'react'
-import { calculateCurrentCaffeineLevel, coffeeConsumptionHistory, statusLevels } from '../utils'
+import { calculateCoffeeStats, calculateCurrentCaffeineLevel, coffeeConsumptionHistory, getTopThreeCoffees, statusLevels } from '../utils'
 
 function StatCard(props){
   const {lg,title,children} = props
@@ -13,13 +13,7 @@ function StatCard(props){
 }
 
 export default function Stats() {
-  const stats = {
-    daily_caffeine: 240,
-    daily_cost: 6.8,
-    average_coffees: 2.3,
-    total_cost: 220
-  }
-
+  const stats = calculateCoffeeStats(coffeeConsumptionHistory)
   const caffeineLevel = calculateCurrentCaffeineLevel(coffeeConsumptionHistory)
   const warningLevel = caffeineLevel < statusLevels.low.maxLevel ? 'low' : caffeineLevel < statusLevels.high.maxLevel ? 'moderate' : 'high'
 
@@ -49,6 +43,26 @@ export default function Stats() {
     <StatCard title='Total Cost ($)'>
       <p>$<span className='stat-text'>{stats.total_cost}</span></p>
     </StatCard>
+    <table className='stat-table'>
+      <thead>
+        <tr>
+          <th>Coffee Name</th>
+          <th>Name of Purchase</th>
+          <th>Percentage of Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {getTopThreeCoffees(coffeeConsumptionHistory).map((c,i)=>{
+          return(
+            <tr key={i}>
+              <td>{c.coffeeName}</td>
+              <td>{c.count}</td>
+              <td>{c.percentage}</td>
+            </tr>
+          )
+        })}
+      </tbody>
+    </table>
     </div>
     </>
   )
